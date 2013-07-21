@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  alias: MyString
+  iata_code: MyString
+  icao_code: MyString
+  callsign: MyString
+  country: MyString
+  active: false
+
+two:
+  name: MyString
+  alias: MyString
+  iata_code: MyString
+  icao_code: MyString
+  callsign: MyString
+  country: MyString
+  active: false

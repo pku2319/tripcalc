@@ -1,0 +1,2 @@
+namespace :airline do
+end
