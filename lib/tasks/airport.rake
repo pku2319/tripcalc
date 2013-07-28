@@ -6,7 +6,7 @@ require 'csv'
 # Name, City, Country. IATA/FAA code, ICAO code, Latitude, Longitude, Altitude, Timezone, DST
 
 namespace :airport do
-  module Column
+  module AirportColumn
     Name = 1
     City = 2
     Country = 3
@@ -23,10 +23,10 @@ namespace :airport do
   task :add => :environment do
     puts "adding airports"
     CSV.foreach("lib/assets/airports.dat") do |row|
-      airport = Airport.new(name: row[Column::Name], city: row[Column::City], country: row[Column::Country],
-                            iata_code: row[Column::Iata], icao_code: row[Column::Icao], lat: row[Column::Latitude],
-                            long: row[Column::Longitude], altitude: row[Column::Altitude], timezone: row[Column::Timezone],
-                            dst: row[Column::DST])
+      airport = Airport.new(name: row[AirportColumn::Name], city: row[AirportColumn::City], country: row[AirportColumn::Country],
+                            iata_code: row[AirportColumn::Iata], icao_code: row[AirportColumn::Icao], lat: row[AirportColumn::Latitude],
+                            long: row[AirportColumn::Longitude], altitude: row[AirportColumn::Altitude], timezone: row[AirportColumn::Timezone],
+                            dst: row[AirportColumn::DST])
       airport.save
     end
   end
@@ -36,20 +36,20 @@ namespace :airport do
     puts "updating airports"
     CSV.foreach("lib/assets/airports.dat") do |row|
       # grab an airport with the IATA/FAA code
-      airport = Airport.where(iata_code: row[Column::Iata]).first
+      airport = Airport.where(iata_code: row[AirportColumn::Iata]).first
 
       # if such an airport exists, update its info
       if airport
-        airport.update_attributes(name: row[Column::Name], city: row[Column::City], country: row[Column::Country],
-                              icao_code: row[Column::Icao], lat: row[Column::Latitude], long: row[Column::Longitude],
-                              altitude: row[Column::Altitude], timezone: row[Column::Timezone], dst: row[Column::DST])
+        airport.update_attributes(name: row[AirportColumn::Name], city: row[AirportColumn::City], country: row[AirportColumn::Country],
+                              icao_code: row[AirportColumn::Icao], lat: row[AirportColumn::Latitude], long: row[AirportColumn::Longitude],
+                              altitude: row[AirportColumn::Altitude], timezone: row[AirportColumn::Timezone], dst: row[AirportColumn::DST])
       # else add the new airport
       else
-        puts "adding #{row[Column::Name]} with code: #{row[Column::Iata]}"
-        airport = Airport.new(name: row[Column::Name], city: row[Column::City], country: row[Column::Country],
-                              iata_code: row[Column::Iata], icao_code: row[Column::Icao], lat: row[Column::Latitude],
-                              long: row[Column::Longitude], altitude: row[Column::Altitude], timezone: row[Column::Timezone],
-                              dst: row[Column::DST])
+        puts "adding #{row[AirportColumn::Name]} with code: #{row[AirportColumn::Iata]}"
+        airport = Airport.new(name: row[AirportColumn::Name], city: row[AirportColumn::City], country: row[AirportColumn::Country],
+                              iata_code: row[AirportColumn::Iata], icao_code: row[AirportColumn::Icao], lat: row[AirportColumn::Latitude],
+                              long: row[AirportColumn::Longitude], altitude: row[AirportColumn::Altitude], timezone: row[AirportColumn::Timezone],
+                              dst: row[AirportColumn::DST])
         airport.save
       end
     end
