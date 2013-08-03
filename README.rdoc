@@ -5,4 +5,4 @@ This is a work in progress.
 Going to be a utility to help people budget for trips
 
 w/ inputs: origin, destination, number of people, dates of travel
-w/ estimates including flight, lodging, and other travel expenses
+w/ outputs: estimates including flight, lodging, and other travel expenses
