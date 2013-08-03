@@ -32,6 +32,14 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# gems for testing
+group :test do
+  gem 'vcr'
+  gem "webmock"
+end
+
+gem 'nokogiri', '~> 1.6.0'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

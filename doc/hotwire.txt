@@ -1,0 +1,115 @@
+2. Request Parameters:
+
+The Hotel Shopping  API takes the following request parameters
+
+&dest=specifies a geographical anchor point for the hotel deal search.   Results will include neighborhoods in the city most closely matching the parameter.
+
+You may specify a lat,lon pair.
+You may specify a string that we can geocode into a lat,lon pair.   You can try addresses, city names, and points of interest.  
+You may specify a 3 letter airport code, such as LAX or JFK
+Be aware that the API will proceed with a "best match" for ambiguous destinations, so developers should attempt to resolve ambiguous inputs before calling the API.
+If the specified location does not match a city where Hotwire has inventory, the API will return results in the closest city where inventory is available.
+If no Hotwire inventory is available within 200 miles of the specified destination, in any direction, then the API will return no results..
+Examples:
+&dest=Seattle
+&dest=Portland,OR
+&dest=LAX
+&dest==37.792,-122.397
+&dest= is a required parameter.
+
+&startdate=&enddate specifies stay dates for the hotel search.
+
+Note: at present, hotel search supports stays up to 330 days from the current date, with a maximum stay of 30 nights.
+Examples:
+&startdate=07/04/2010&enddate=07/11/2010  #specific checkin and checkout dates
+&startdate- and &enddate= are required parameters
+ 
+
+&rooms=  specifies the number of rooms to search for
+
+value is numeric, in the range of 1 to 6.
+Example
+&rooms=1
+Note that requests to search for multiple rooms may produce limited results.
+The number of rooms requested cannot exceed the number of adults specified.
+&rooms= is a required parameter.
+ 
+
+&adults=  specifies the number of adult guests to specify in the search
+
+value is numeric, in the range of 1 to 24.
+Example
+&adults=2
+A valid search requires at least one adult per room requested.
+Note that requests to search for rooms with occupancy greater than two adults may produce limited results.
+&adults= is a required parameter.
+ 
+
+&children=  specifies the number of children to specify in the search
+
+value is numeric, in the range of 0 to 16.
+Example
+&children=0
+Note that regardless of the number of children specified, a valid search requires at least one adult per room requested.
+Note that requests to search for rooms with occupancy that includes children may produce a reduced result set.
+&children= is a required parameter.
+&hwpos=uk toindicate that currency amounts should be presented in GBP, and that deeplinks should point to the Hotwire.co.uk site rather than to Hotwire.com.  At this time, USD and GBP are the only currencies supported.
+
+ Example:
+&hwpos=uk
+
+Additional Notes:
+
+The &limit= parameter is not supported by the Hotel Shopping API.
+3. Example request:
+
+Search for Hotwire hotel rates and availability in San Francisco, CA, checking in January 20, 2010 and checking out January 23, 2010
+
+http://api.hotwire.com/v1/search/hotel?apikey=abc123&dest=San%20Francisco,%20Ca.&rooms=1&adults=2&children=0&startdate=01/20/2010&enddate=01/23/2010
+
+ 
+
+4. Response XML:
+
+XML Responses to the Hotel Shopping API are divided into five sections.
+
+A <MetaData> section, containing descriptions of items that may be referenced repeatedly in results.  Use of the metadata section results in a more manageable message size for large result sets.
+A <Result> section, containing descriptions of individual priced hotel  results.
+A <StatusCode> numeric, which will be 0 for successful calls.
+A <StatusDesc> textual element, which will be ‘success’ on successful call and contain diagnostic information otherwise.
+An <Errors> section containing detailed information describing errors for unsuccessful calls.
+MetaData contains the following data:
+
+<Amenities>describing features of the hotel offering, such as swimming pools, restaurants, or spas.  Consists of <Amenity> records, each of which contains:
+<Code> a two character code to be referenced in the Results section of the response.
+<Description> a textural description, suitable for display.
+<Neighborhoods> describing the geography in which a Hotwire hotel offering is located.  Remember, Hotwire doesn’t disclose the precise identify or location of specific hotels until after a purchase is confirmed.  Consists of multiple <Neighborhood> records, each of which contains,
+<Centroid>  a comma separated list of two numeric values representing latitude and longitude
+<City> <State> and <Country> The city state and country in which the Neighborhood is located.
+<Id> a numeric Neighborhood id, to be referenced in the Result section of the response.
+<Name> The neighborhood’s name as it appears on Hotwire.com.
+<Description> A brief description of the neighborhood, if available.
+<Shape> consists of a set of <LatLong> elements, which combine to define the borders of the neighborhood as a polygon.
+Each <LatLong> is a pair of numeric values separated by a comma.
+Result consists of <HotelResult> records, each of which can contain
+
+<CurrencyCode>   The currency code in which all currency  fields are denominated
+<DeepLink>  A Hotwire.com link that can be used to complete a purchase of the given result.   All rates and availability are subject to change at any time.
+<ResultId>  A unique ID for the given result.  Reserved for future use.
+<HWRefNumber>  A reference number for the given result.  Reserved for use by other Hotwire APIs.
+<SubTotal> The price of the result, excluding taxes and fees.
+<TaxesAndFees> Taxes and Fees associated with the result
+<TotalPrice> The total price of the result, including all taxes and fees.
+<AmenityCodes> The list of Amenity Codes associated with the result.  References Amenity data found in the MetaData section of the response.
+<CheckinDate> and <CheckoutDate>   Define the stay dates associated with the given result
+<NeighborhoodId> A unique id representing the neighborhood in which the given result is located.   References Neighborhood data found in the MetaData section of the response.
+<LodgingTypeCode> may be “H” for hotel,  “C” for condo, or “A” for all-inclusive resort.
+<Nights>  The duration of the result, in nights
+<PaidAmenities> References price data for optional hotel services, such as Valet Parking, that incur an extra charge during the time of stay.   Such charges are paid directly to the hotel, not to Hotwire.   Price data is approximate, and is subject to change.
+<AveragePricePerNight> As a convenience, computes the average price per room per night for the given result, exclusive of taxes and fees.  This is equivalent to the display price for the result on Hotwire.com.
+<Rooms> The number of rooms associated with the result.
+<SpecialTaxItems>  Additional information about taxes imposed by certain local governments.  Rarely used.
+<StarRating> The Hotwire Star Rating of the result.  May be between 1 and 5 stars, in 0.5 star increments.
+Additionally, if the incoming request includes a "&linkshareid=" parameter with a valid 11 character value, then the resulting HotelDeal records will include a LinkshareDeepLink  data element.   Traffic from Hotwire affilates must come through these Linkshare comatible URLs in order for the affiliate to receive credit for resulting transactions.
+
+Note that it is permissible to cache Hotwire neighborhood and amenity data to avoid parsing the metadata with each response.
