@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Testapp::Application.load_tasks
+Tripcalc::Application.load_tasks
