@@ -2,7 +2,7 @@
 
 one:
   name: MyString
-  alias: MyString
+  airline_alias: MyString
   iata_code: MyString
   icao_code: MyString
   callsign: MyString
@@ -11,7 +11,7 @@ one:
 
 two:
   name: MyString
-  alias: MyString
+  airline_alias: MyString
   iata_code: MyString
   icao_code: MyString
   callsign: MyString
