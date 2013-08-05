@@ -47,15 +47,16 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: testapp_test
+  database: tripcalc_test
+  host: localhost
   pool: 5
-  username: testapp
+  username: test
   password:
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: testapp_production
+  database: tripcalc_production
   pool: 5
-  username: testapp
+  username: chrysanthemum
   password:

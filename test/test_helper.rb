@@ -13,4 +13,9 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  VCR.configure do |c|
+    c.allow_http_connections_when_no_cassette = true
+    c.hook_into :webmock
+    c.cassette_library_dir = Rails.root.join('test','vcr')
+  end
 end
